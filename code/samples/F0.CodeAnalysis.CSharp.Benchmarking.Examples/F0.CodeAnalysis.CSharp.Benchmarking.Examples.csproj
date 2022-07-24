@@ -14,4 +14,8 @@
     <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\F0.CodeAnalysis.CSharp.IncrementalGenerator.Benchmarking\F0.CodeAnalysis.CSharp.IncrementalGenerator.Benchmarking.csproj" />
+  </ItemGroup>
+
 </Project>
