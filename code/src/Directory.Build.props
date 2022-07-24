@@ -1,0 +1,38 @@
+<Project>
+
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <Import Project="$(MSBuildThisFileDirectory)../Release.props" />
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package">
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>$(F0Version)</Version>
+    <Authors>Flash0ver</Authors>
+    <Company>f[0]</Company>
+    <Product>F0.CodeAnalysis.Benchmarking</Product>
+    <Description>Benchmarking library for Roslyn components.</Description>
+    <Copyright>© f[0]</Copyright>
+    <PackageProjectUrl>https://github.com/Flash0ver/F0.CodeAnalysis.Benchmarking</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/Flash0ver/F0/master/Branding/NuGet/F0.CodeAnalysis.Benchmarking.png</PackageIconUrl>
+    <PackageIcon>Icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/Flash0ver/F0.CodeAnalysis.Benchmarking.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>f[0];F0;Roslyn;CodeAnalysis;Benchmarking</PackageTags>
+    <PackageReleaseNotes>$(F0PackageReleaseNotes)</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <None Include="..\..\..\resources\F0.CodeAnalysis-Preview.png" Pack="true" PackagePath="\Icon.png" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <None Include="..\..\..\resources\F0.CodeAnalysis.png" Pack="true" PackagePath="\Icon.png" Visible="false" />
+  </ItemGroup>
+
+</Project>

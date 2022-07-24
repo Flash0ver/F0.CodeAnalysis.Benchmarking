@@ -1,0 +1,8 @@
+<Project>
+
+  <PropertyGroup>
+    <F0Version>0.1.0</F0Version>
+    <F0PackageReleaseNotes>vNext</F0PackageReleaseNotes>
+  </PropertyGroup>
+
+</Project>
