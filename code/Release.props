@@ -1,8 +1,8 @@
 <Project>
 
   <PropertyGroup>
-    <F0Version>0.1.0</F0Version>
-    <F0PackageReleaseNotes>Added C# benchmarking types for IIncrementalGenerator.</F0PackageReleaseNotes>
+    <F0Version>0.2.0</F0Version>
+    <F0PackageReleaseNotes>Added C# benchmarking types for ISourceGenerator.</F0PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
