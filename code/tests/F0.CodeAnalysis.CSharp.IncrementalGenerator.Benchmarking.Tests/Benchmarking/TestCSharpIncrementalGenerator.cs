@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace F0.CodeAnalysis.CSharp.Tests.Benchmarking;
 
 [Generator(LanguageNames.CSharp)]
-internal class TestCSharpIncrementalGenerator : IIncrementalGenerator
+internal sealed class TestCSharpIncrementalGenerator : IIncrementalGenerator
 {
 	private const string defaultFileExtension = ".g.cs";
 

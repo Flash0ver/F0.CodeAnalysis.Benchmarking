@@ -11,7 +11,7 @@ Benchmarking library for Roslyn components:
   - `CodeFixProvider` [#4](https://github.com/Flash0ver/F0.CodeAnalysis.Benchmarking/issues/4)
   - `CodeRefactoringProvider` [#5](https://github.com/Flash0ver/F0.CodeAnalysis.Benchmarking/issues/5)
   - `DiagnosticSuppressor` [#6](https://github.com/Flash0ver/F0.CodeAnalysis.Benchmarking/issues/6)
-  - `ISourceGenerator` [#7](https://github.com/Flash0ver/F0.CodeAnalysis.Benchmarking/issues/7)
+  - [ISourceGenerator](./docs/ISourceGenerator.md)
   - [IIncrementalGenerator](./docs/IIncrementalGenerator.md)
 - Visual Basic
   - `DiagnosticAnalyzer` [#9](https://github.com/Flash0ver/F0.CodeAnalysis.Benchmarking/issues/9)
