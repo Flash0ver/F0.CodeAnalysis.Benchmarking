@@ -15,8 +15,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DiffPlex" Version="1.7.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\F0.CodeAnalysis.CSharp.Benchmarking\F0.CodeAnalysis.CSharp.Benchmarking.csproj" />
   </ItemGroup>
 
 </Project>

@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\F0.CodeAnalysis.CSharp.IncrementalGenerator.Benchmarking\F0.CodeAnalysis.CSharp.IncrementalGenerator.Benchmarking.csproj" />
+    <ProjectReference Include="..\..\src\F0.CodeAnalysis.CSharp.SourceGenerator.Benchmarking\F0.CodeAnalysis.CSharp.SourceGenerator.Benchmarking.csproj" />
   </ItemGroup>
 
 </Project>
