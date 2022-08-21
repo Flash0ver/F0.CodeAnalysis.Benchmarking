@@ -27,9 +27,9 @@ public class CSharpSourceGeneratorBenchmarkTests
 	{
 		CSharpSourceGeneratorBenchmark<NullCSharpSourceGenerator> benchmark = new();
 
-		void initialize() => benchmark.Inspect(null!);
+		void inspect() => benchmark.Inspect(null!);
 
-		Assert.Throws<ArgumentNullException>("context", initialize);
+		Assert.Throws<ArgumentNullException>("context", inspect);
 	}
 
 	[Fact]
@@ -149,7 +149,7 @@ typeof(System.Type): netstandard
 					HelpLink = "Test-HelpLinkUri",
 					AdditionalLocations = { Location.Create(String.Empty, TextSpan.FromBounds(13, 21), new LinePositionSpan()) },
 					CustomTags = { "Test-Tag" },
-					Properties = { { "Key", "Value" } },
+					Properties = { { "Name", "Value" } },
 				},
 				new AdhocDiagnostic(1)
 				{

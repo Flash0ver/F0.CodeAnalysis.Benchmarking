@@ -17,7 +17,7 @@ public sealed class CSharpSourceGeneratorBenchmarks
 {
 }
 
-public readonly struct GeneratorInitializationContext
+public readonly struct SourceGeneratorInitializationContext
 {
 }";
 
@@ -30,7 +30,7 @@ public sealed class CSharpSourceGeneratorBenchmarks{i}
 {{
 }}
 
-public readonly struct GeneratorInitializationContext{i}
+public readonly struct SourceGeneratorInitializationContext{i}
 {{
 }}
 ";

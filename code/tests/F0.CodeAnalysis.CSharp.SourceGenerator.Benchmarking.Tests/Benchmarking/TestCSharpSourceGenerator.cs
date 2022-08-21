@@ -88,7 +88,7 @@ internal sealed class TestCSharpSourceGenerator : ISourceGenerator
 		}
 
 		ImmutableDictionary<string, string?>.Builder builder = ImmutableDictionary.CreateBuilder<string, string?>();
-		builder.Add("Key", "Value");
+		builder.Add("Name", "Value");
 		ImmutableDictionary<string, string?> properties = builder.ToImmutable();
 
 		foreach (SyntaxNode node in receiver.Nodes)

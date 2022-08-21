@@ -107,7 +107,7 @@ internal sealed class TestCSharpIncrementalGenerator : IIncrementalGenerator
 		}
 
 		ImmutableDictionary<string, string?>.Builder builder = ImmutableDictionary.CreateBuilder<string, string?>();
-		builder.Add("Key", "Value");
+		builder.Add("Name", "Value");
 		ImmutableDictionary<string, string?> properties = builder.ToImmutable();
 
 		foreach (SyntaxNode node in source.Other.Other.Other.Other.Nodes)

@@ -11,7 +11,7 @@ internal static class AdhocDiagnostics
 	{
 		if (diagnostics.Count != locations.Length)
 		{
-			throw new ArgumentException($"Count of diagnostics does not match the Length of locations.", nameof(locations));
+			throw new ArgumentException($"Count of diagnostics ({diagnostics.Count}) does not match the Length of locations ({locations.Length}).", nameof(locations));
 		}
 
 		int i = 0;
