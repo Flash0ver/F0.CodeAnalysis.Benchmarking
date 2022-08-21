@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using F0.CodeAnalysis.CSharp.Diagnostics;
@@ -127,11 +128,13 @@ internal static class Inspector
 		StringBuilder message = new($"Unexpected {nameof(Diagnostic)} #{index}:");
 		_ = message.AppendLine();
 
+		Debug.Assert(actual.Descriptor.CustomTags is ImmutableArray<string>);
+
 		bool @throw = Diff.WriteDiff(message, nameof(Diagnostic.Id), expected.Id, actual.Id)
 			| Diff.WriteDiff(message, nameof(Diagnostic.Descriptor.Category), expected.Category, actual.Descriptor.Category)
 			| Diff.WriteDiff(message, nameof(Diagnostic.Descriptor.Title), expected.Title, actual.Descriptor.Title)
 			| Diff.WriteDiff(message, nameof(Diagnostic.Descriptor.Description), expected.Description, actual.Descriptor.Description)
-			| Diff.WriteDiff(message, nameof(AdhocDiagnostic.Message), expected.Message, actual.GetMessage())
+			| Diff.WriteDiff(message, nameof(AdhocDiagnostic.Message), expected.Message, actual.GetMessage(null))
 			| Diff.WriteDiff(message, nameof(Diagnostic.Descriptor.MessageFormat), expected.MessageFormat, actual.Descriptor.MessageFormat)
 			| Diff.WriteDiff(message, nameof(Diagnostic.DefaultSeverity), expected.DefaultSeverity, actual.DefaultSeverity)
 			| Diff.WriteDiff(message, nameof(Diagnostic.Severity), expected.Severity, actual.Severity)
@@ -141,8 +144,8 @@ internal static class Inspector
 			| Diff.WriteDiff(message, nameof(Diagnostic.Descriptor.HelpLinkUri), expected.HelpLink, actual.Descriptor.HelpLinkUri)
 			| Diff.WriteDiff(message, nameof(Diagnostic.Descriptor.IsEnabledByDefault), expected.IsEnabledByDefault, actual.Descriptor.IsEnabledByDefault)
 			| Diff.WriteSequenceDiff(message, nameof(Diagnostic.AdditionalLocations), expected.AdditionalLocations, actual.AdditionalLocations, static expected => expected.SourceSpan, static actual => actual.SourceSpan)
-			| Diff.WriteSequenceDiff(message, nameof(Diagnostic.Descriptor.CustomTags), expected.CustomTags, actual.Descriptor.CustomTags)
-			| Diff.WriteSequenceDiff(message, nameof(Diagnostic.Properties), expected.Properties, actual.Properties, static expected => (expected.Key, expected.Value), static actual => (actual.Key, actual.Value));
+			| Diff.WriteSequenceDiff(message, nameof(Diagnostic.Descriptor.CustomTags), expected.CustomTags, actual.Descriptor.CustomTags.ToImmutableArray())
+			| Diff.WriteOrderedSequenceDiff(message, nameof(Diagnostic.Properties), expected.Properties, actual.Properties, static expected => (expected.Key, expected.Value), static actual => (actual.Key, actual.Value));
 
 		if (@throw)
 		{
