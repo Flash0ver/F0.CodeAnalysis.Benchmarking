@@ -3,7 +3,9 @@ F0.CodeAnalysis.Benchmarking
 
 [Roslyn](https://github.com/dotnet/roslyn) is the .NET Compiler Platform.
 
-Best used with [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet).
+Project inspired by [Microsoft.CodeAnalysis.Testing](https://github.com/dotnet/roslyn-sdk/blob/main/src/Microsoft.CodeAnalysis.Testing/README.md).
+
+Packages best used with [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet).
 
 Benchmarking library for Roslyn components:
 - C#
