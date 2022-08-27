@@ -1,4 +1,3 @@
-using System.Reflection;
 using Basic.Reference.Assemblies;
 using F0.CodeAnalysis.CSharp.Benchmarking;
 using F0.CodeAnalysis.CSharp.Diagnostics;

@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -40,10 +41,13 @@ internal sealed class TestCSharpSourceGenerator : ISourceGenerator
 
 		Debug.Assert(context.SyntaxReceiver is TestCSharpSyntaxReceiver);
 		Debug.Assert(context.SyntaxContextReceiver is null);
-		var receiver = (TestCSharpSyntaxReceiver)context.SyntaxReceiver;
+		var receiver = Unsafe.As<TestCSharpSyntaxReceiver>(context.SyntaxReceiver);
 
-		var compilation = (CSharpCompilation)context.Compilation;
-		var parseOptions = (CSharpParseOptions)context.ParseOptions;
+		Debug.Assert(context.Compilation is CSharpCompilation);
+		var compilation = Unsafe.As<CSharpCompilation>(context.Compilation);
+
+		Debug.Assert(context.ParseOptions is CSharpParseOptions);
+		var parseOptions = Unsafe.As<CSharpParseOptions>(context.ParseOptions);
 
 		string hintName = $"{GetType()}{defaultFileExtension}";
 		StringBuilder sourceText = new();

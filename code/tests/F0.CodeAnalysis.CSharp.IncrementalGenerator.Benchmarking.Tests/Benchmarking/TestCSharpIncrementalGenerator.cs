@@ -1,4 +1,6 @@
 using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -62,8 +64,11 @@ internal sealed class TestCSharpIncrementalGenerator : IIncrementalGenerator
 	{
 		Executions++;
 
-		var compilation = (CSharpCompilation)source.Other.Other.Other.Other.Compilation;
-		var parseOptions = (CSharpParseOptions)source.Other.Other.Other.ParseOptions;
+		Debug.Assert(source.Other.Other.Other.Other.Compilation is CSharpCompilation);
+		var compilation = Unsafe.As<CSharpCompilation>(source.Other.Other.Other.Other.Compilation);
+
+		Debug.Assert(source.Other.Other.Other.ParseOptions is CSharpParseOptions);
+		var parseOptions = Unsafe.As<CSharpParseOptions>(source.Other.Other.Other.ParseOptions);
 
 		string hintName = $"{GetType()}{defaultFileExtension}";
 		StringBuilder sourceText = new();
