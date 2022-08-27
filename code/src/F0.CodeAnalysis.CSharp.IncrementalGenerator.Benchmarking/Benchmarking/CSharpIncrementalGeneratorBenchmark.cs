@@ -80,14 +80,14 @@ public sealed class CSharpIncrementalGeneratorBenchmark<TIncrementalGenerator>
 		Debug.Assert(runResult.Results.Length == 1, "There Can Be Only One (Generator Result)");
 		Debug.Assert(generators.Length == 1, "There Can Be Only One (Generator)");
 		GeneratorRunResult generatorResult = runResult.Results[0];
-		Inspector.Generator(generators[0], generatorResult.Generator);
+		GeneratorInspector.Generator(generators[0], generatorResult.Generator);
 		Inspector.Diagnostics(context.Diagnostics, generatorResult.Diagnostics);
-		Inspector.GeneratedSources(sources.Length, generatorResult.GeneratedSources);
+		GeneratorInspector.GeneratedSources(sources.Length, generatorResult.GeneratedSources);
 		Inspector.Exception(generatorResult.Exception);
 
 		for (int i = 0; i < sources.Length; i++)
 		{
-			Inspector.Source(i, sources[i], generatorResult.GeneratedSources[i]);
+			GeneratorInspector.Source(i, sources[i], generatorResult.GeneratedSources[i]);
 		}
 	}
 
