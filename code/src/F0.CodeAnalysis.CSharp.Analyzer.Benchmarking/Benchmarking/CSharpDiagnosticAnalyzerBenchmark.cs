@@ -129,7 +129,7 @@ public sealed class CSharpDiagnosticAnalyzerBenchmark<TDiagnosticAnalyzer>
 			outLocations.AddRange(locations);
 			return sanitized;
 		});
-		IEnumerable<(string Path, string Source)> addionalTexts = context.AdditionalTexts.Select((source, index) =>
+		IEnumerable<(string Path, string Source)> additionalTexts = context.AdditionalTexts.Select((source, index) =>
 		{
 			string sanitized = MarkupParser.Parse(CreateFilePath(index), source.Text, out ImmutableArray<Location> locations);
 			outLocations.AddRange(locations);
@@ -142,7 +142,7 @@ public sealed class CSharpDiagnosticAnalyzerBenchmark<TDiagnosticAnalyzer>
 		CSharpCompilationOptions options = context.CompilationOptions ?? new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 
 		var compilation = CSharpCompilation.Create(assemblyName, syntaxTrees.ToArray(), references, options);
-		additionalFiles = addionalTexts.Select(static add => new AdhocAdditionalText(add.Path, add.Source)).ToImmutableArray<AdditionalText>();
+		additionalFiles = additionalTexts.Select(static add => new AdhocAdditionalText(add.Path, add.Source)).ToImmutableArray<AdditionalText>();
 		locations = ImmutableArray.CreateRange(outLocations);
 		return compilation;
 	}
