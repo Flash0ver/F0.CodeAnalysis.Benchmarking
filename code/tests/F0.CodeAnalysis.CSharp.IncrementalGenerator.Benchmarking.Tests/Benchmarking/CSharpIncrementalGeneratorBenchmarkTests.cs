@@ -153,7 +153,7 @@ Last MetadataReference: System.Xml.XPath.XDocument (netstandard20)
 					HelpLink = "Test-HelpLinkUri",
 					AdditionalLocations = { Location.Create(String.Empty, TextSpan.FromBounds(13, 21), new LinePositionSpan()) },
 					CustomTags = { "Test-Tag" },
-					Properties = { { "Name", "Value" } },
+					Properties = { { "Zero", "One" }, { "Two", "Three" }, { "Four", "Five" }, { "Six", "Seven" }, { "Eight", "Nine" } },
 				},
 				new AdhocDiagnostic(1)
 				{

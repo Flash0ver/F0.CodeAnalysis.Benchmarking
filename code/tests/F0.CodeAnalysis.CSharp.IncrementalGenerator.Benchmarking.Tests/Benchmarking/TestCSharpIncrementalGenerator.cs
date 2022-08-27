@@ -111,9 +111,7 @@ internal sealed class TestCSharpIncrementalGenerator : IIncrementalGenerator
 			context.AddSource(hintName, sourceText.ToString());
 		}
 
-		ImmutableDictionary<string, string?>.Builder builder = ImmutableDictionary.CreateBuilder<string, string?>();
-		builder.Add("Name", "Value");
-		ImmutableDictionary<string, string?> properties = builder.ToImmutable();
+		ImmutableDictionary<string, string?> properties = CreateProperties();
 
 		foreach (SyntaxNode node in source.Other.Other.Other.Other.Nodes)
 		{
@@ -124,5 +122,16 @@ internal sealed class TestCSharpIncrementalGenerator : IIncrementalGenerator
 				context.ReportDiagnostic(diagnostic);
 			}
 		}
+	}
+
+	private static ImmutableDictionary<string, string?> CreateProperties()
+	{
+		ImmutableDictionary<string, string?>.Builder builder = ImmutableDictionary.CreateBuilder<string, string?>();
+		builder.Add("Zero", "One");
+		builder.Add("Two", "Three");
+		builder.Add("Four", "Five");
+		builder.Add("Six", "Seven");
+		builder.Add("Eight", "Nine");
+		return builder.ToImmutable();
 	}
 }
