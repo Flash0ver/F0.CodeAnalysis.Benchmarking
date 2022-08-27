@@ -1,0 +1,31 @@
+name: .NET Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  dotnet_test:
+    name: on ${{ matrix.os }} in ${{ matrix.configuration }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+        os: [ubuntu-22.04, macos-12, windows-2022]
+    
+    env:
+      Solution_File: ./code/F0.CodeAnalysis.Benchmarking.sln
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.0.2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2.1.0
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.Solution_File }}
+    - name: Build solution
+      run: dotnet build ${{ env.Solution_File }} --configuration ${{ matrix.configuration }} --no-restore
+    - name: Test solution
+      run: dotnet test ${{ env.Solution_File }} --configuration ${{ matrix.configuration }} --no-build --verbosity normal
