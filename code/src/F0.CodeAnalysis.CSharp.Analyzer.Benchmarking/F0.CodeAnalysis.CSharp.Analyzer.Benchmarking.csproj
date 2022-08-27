@@ -15,15 +15,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.7.0" />
   </ItemGroup>
 
-  <PropertyGroup Label="https://github.com/Flash0ver/F0.CodeAnalysis.Benchmarking/issues/1">
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
-
-  <ItemGroup Label="https://github.com/Flash0ver/F0.CodeAnalysis.Benchmarking/issues/1">
-    <Folder Include="Benchmarking\" />
+  <ItemGroup>
+    <ProjectReference Include="..\F0.CodeAnalysis.CSharp.Benchmarking\F0.CodeAnalysis.CSharp.Benchmarking.csproj" />
   </ItemGroup>
 
 </Project>

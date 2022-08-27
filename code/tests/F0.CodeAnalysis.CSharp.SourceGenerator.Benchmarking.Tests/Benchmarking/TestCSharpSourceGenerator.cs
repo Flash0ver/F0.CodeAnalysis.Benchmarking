@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -40,10 +41,13 @@ internal sealed class TestCSharpSourceGenerator : ISourceGenerator
 
 		Debug.Assert(context.SyntaxReceiver is TestCSharpSyntaxReceiver);
 		Debug.Assert(context.SyntaxContextReceiver is null);
-		var receiver = (TestCSharpSyntaxReceiver)context.SyntaxReceiver;
+		var receiver = Unsafe.As<TestCSharpSyntaxReceiver>(context.SyntaxReceiver);
 
-		var compilation = (CSharpCompilation)context.Compilation;
-		var parseOptions = (CSharpParseOptions)context.ParseOptions;
+		Debug.Assert(context.Compilation is CSharpCompilation);
+		var compilation = Unsafe.As<CSharpCompilation>(context.Compilation);
+
+		Debug.Assert(context.ParseOptions is CSharpParseOptions);
+		var parseOptions = Unsafe.As<CSharpParseOptions>(context.ParseOptions);
 
 		string hintName = $"{GetType()}{defaultFileExtension}";
 		StringBuilder sourceText = new();
@@ -87,9 +91,7 @@ internal sealed class TestCSharpSourceGenerator : ISourceGenerator
 			context.AddSource(hintName, sourceText.ToString());
 		}
 
-		ImmutableDictionary<string, string?>.Builder builder = ImmutableDictionary.CreateBuilder<string, string?>();
-		builder.Add("Key", "Value");
-		ImmutableDictionary<string, string?> properties = builder.ToImmutable();
+		ImmutableDictionary<string, string?> properties = CreateProperties();
 
 		foreach (SyntaxNode node in receiver.Nodes)
 		{
@@ -100,5 +102,16 @@ internal sealed class TestCSharpSourceGenerator : ISourceGenerator
 				context.ReportDiagnostic(diagnostic);
 			}
 		}
+	}
+
+	private static ImmutableDictionary<string, string?> CreateProperties()
+	{
+		ImmutableDictionary<string, string?>.Builder builder = ImmutableDictionary.CreateBuilder<string, string?>();
+		builder.Add("Zero", "One");
+		builder.Add("Two", "Three");
+		builder.Add("Four", "Five");
+		builder.Add("Six", "Seven");
+		builder.Add("Eight", "Nine");
+		return builder.ToImmutable();
 	}
 }

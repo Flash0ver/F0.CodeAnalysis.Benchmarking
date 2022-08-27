@@ -2,6 +2,8 @@
 CHANGELOG
 
 ## vNext
+- Added _C#_ benchmarking types for `DiagnosticAnalyzer`.
+- Fixed inspection order of `Diagnostic.Properties`.
 
 ## v0.2.0 (2022-07-31)
 - Added _C#_ benchmarking types for `ISourceGenerator`.

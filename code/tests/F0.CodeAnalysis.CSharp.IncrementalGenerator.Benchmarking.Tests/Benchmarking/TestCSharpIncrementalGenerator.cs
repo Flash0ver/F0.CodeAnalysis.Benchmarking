@@ -1,4 +1,6 @@
 using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -62,8 +64,11 @@ internal sealed class TestCSharpIncrementalGenerator : IIncrementalGenerator
 	{
 		Executions++;
 
-		var compilation = (CSharpCompilation)source.Other.Other.Other.Other.Compilation;
-		var parseOptions = (CSharpParseOptions)source.Other.Other.Other.ParseOptions;
+		Debug.Assert(source.Other.Other.Other.Other.Compilation is CSharpCompilation);
+		var compilation = Unsafe.As<CSharpCompilation>(source.Other.Other.Other.Other.Compilation);
+
+		Debug.Assert(source.Other.Other.Other.ParseOptions is CSharpParseOptions);
+		var parseOptions = Unsafe.As<CSharpParseOptions>(source.Other.Other.Other.ParseOptions);
 
 		string hintName = $"{GetType()}{defaultFileExtension}";
 		StringBuilder sourceText = new();
@@ -106,9 +111,7 @@ internal sealed class TestCSharpIncrementalGenerator : IIncrementalGenerator
 			context.AddSource(hintName, sourceText.ToString());
 		}
 
-		ImmutableDictionary<string, string?>.Builder builder = ImmutableDictionary.CreateBuilder<string, string?>();
-		builder.Add("Key", "Value");
-		ImmutableDictionary<string, string?> properties = builder.ToImmutable();
+		ImmutableDictionary<string, string?> properties = CreateProperties();
 
 		foreach (SyntaxNode node in source.Other.Other.Other.Other.Nodes)
 		{
@@ -119,5 +122,16 @@ internal sealed class TestCSharpIncrementalGenerator : IIncrementalGenerator
 				context.ReportDiagnostic(diagnostic);
 			}
 		}
+	}
+
+	private static ImmutableDictionary<string, string?> CreateProperties()
+	{
+		ImmutableDictionary<string, string?>.Builder builder = ImmutableDictionary.CreateBuilder<string, string?>();
+		builder.Add("Zero", "One");
+		builder.Add("Two", "Three");
+		builder.Add("Four", "Five");
+		builder.Add("Six", "Seven");
+		builder.Add("Eight", "Nine");
+		return builder.ToImmutable();
 	}
 }

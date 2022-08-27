@@ -63,8 +63,8 @@ internal static class Diff
 		return false;
 	}
 
-	internal static bool WriteSequenceDiff<T>(StringBuilder builder, string name, ICollection<T> expected, IEnumerable<T> actual)
-		where T : class?, IEquatable<T>?
+	internal static bool WriteSequenceDiff<T>(StringBuilder builder, string name, ICollection<T> expected, IReadOnlyCollection<T> actual)
+		where T : IEquatable<T>
 	{
 		if (expected.Count > 0 && !expected.SequenceEqual(actual))
 		{
@@ -80,20 +80,30 @@ internal static class Diff
 		return false;
 	}
 
-	internal static bool WriteSequenceDiff<TExpected, TActual, TElement>(StringBuilder builder, string name, ICollection<TExpected> expected, IEnumerable<TActual> actual, Func<TExpected, TElement> expectedSelector, Func<TActual, TElement> actualSelector)
+	internal static bool WriteOrderedSequenceDiff<T>(StringBuilder builder, string name, ICollection<T> expected, IReadOnlyCollection<T> actual)
+		where T : IEquatable<T>
+	{
+		T[] sortedExpected = expected.OrderBy(static element => element).ToArray();
+		T[] sortedActual = actual.OrderBy(static element => element).ToArray();
+
+		return WriteSequenceDiff(builder, name, sortedExpected, sortedActual);
+	}
+
+	internal static bool WriteSequenceDiff<TExpected, TActual, TElement>(StringBuilder builder, string name, ICollection<TExpected> expected, IReadOnlyCollection<TActual> actual, Func<TExpected, TElement> expectedSelector, Func<TActual, TElement> actualSelector)
 		where TElement : IEquatable<TElement>
 	{
-		if (expected.Count > 0 && !expected.Select(expectedSelector).SequenceEqual(actual.Select(actualSelector)))
-		{
-			_ = builder.AppendLine($"- {name}: {String.Join(", ", expected.Select(expectedSelector))}");
-			_ = builder.AppendLine($"+ {name}: {String.Join(", ", actual.Select(actualSelector))}");
-			return true;
-		}
-		else if (actual.Any())
-		{
-			_ = builder.AppendLine($"  {name}: {String.Join(", ", actual.Select(actualSelector))}");
-		}
+		TElement[] mappedExpected = expected.Select(expectedSelector).ToArray();
+		TElement[] mappedActual = actual.Select(actualSelector).ToArray();
 
-		return false;
+		return WriteSequenceDiff(builder, name, mappedExpected, mappedActual);
+	}
+
+	internal static bool WriteOrderedSequenceDiff<TExpected, TActual, TElement>(StringBuilder builder, string name, ICollection<TExpected> expected, IReadOnlyCollection<TActual> actual, Func<TExpected, TElement> expectedSelector, Func<TActual, TElement> actualSelector)
+		where TElement : IEquatable<TElement>
+	{
+		TElement[] sortedExpected = expected.Select(expectedSelector).OrderBy(static element => element).ToArray();
+		TElement[] sortedActual = actual.Select(actualSelector).OrderBy(static element => element).ToArray();
+
+		return WriteSequenceDiff(builder, name, sortedExpected, sortedActual);
 	}
 }

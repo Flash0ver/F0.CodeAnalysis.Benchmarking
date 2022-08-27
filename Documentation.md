@@ -7,7 +7,7 @@ Best used with [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet).
 
 Benchmarking library for Roslyn components:
 - C#
-  - `DiagnosticAnalyzer` [#3](https://github.com/Flash0ver/F0.CodeAnalysis.Benchmarking/issues/3)
+  - [DiagnosticAnalyzer](./docs/DiagnosticAnalyzer.md)
   - `CodeFixProvider` [#4](https://github.com/Flash0ver/F0.CodeAnalysis.Benchmarking/issues/4)
   - `CodeRefactoringProvider` [#5](https://github.com/Flash0ver/F0.CodeAnalysis.Benchmarking/issues/5)
   - `DiagnosticSuppressor` [#6](https://github.com/Flash0ver/F0.CodeAnalysis.Benchmarking/issues/6)

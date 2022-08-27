@@ -13,8 +13,8 @@
     <ProjectReference Include="..\..\src\F0.CodeAnalysis.CSharp.Analyzer.Benchmarking\F0.CodeAnalysis.CSharp.Analyzer.Benchmarking.csproj" />
   </ItemGroup>
 
-  <ItemGroup Label="https://github.com/Flash0ver/F0.CodeAnalysis.Benchmarking/issues/1">
-    <Folder Include="Benchmarking\" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" />
   </ItemGroup>
 
 </Project>

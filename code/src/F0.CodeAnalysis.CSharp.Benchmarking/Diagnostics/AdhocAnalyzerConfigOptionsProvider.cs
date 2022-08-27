@@ -13,7 +13,7 @@ internal sealed class AdhocAnalyzerConfigOptionsProvider : AnalyzerConfigOptions
 	public override AnalyzerConfigOptions GlobalOptions => options;
 
 	public override AnalyzerConfigOptions GetOptions(SyntaxTree tree)
-		=> throw new NotImplementedException($"The method {nameof(AdhocAnalyzerConfigOptionsProvider)}.{nameof(GetOptions)}({nameof(SyntaxTree)}) is not implemented.");
+		=> options;
 
 	public override AnalyzerConfigOptions GetOptions(AdditionalText textFile)
 		=> throw new NotImplementedException($"The method {nameof(AdhocAnalyzerConfigOptionsProvider)}.{nameof(GetOptions)}({nameof(AdditionalText)}) is not implemented.");
