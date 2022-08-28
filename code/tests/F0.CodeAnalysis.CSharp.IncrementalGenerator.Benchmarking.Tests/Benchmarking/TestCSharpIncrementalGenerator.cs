@@ -21,7 +21,7 @@ internal sealed class TestCSharpIncrementalGenerator : IIncrementalGenerator
 		"Test-Category",
 		DiagnosticSeverity.Warning,
 		true,
-		"Test-Description",
+		"Test-Description.",
 		"Test-HelpLinkUri",
 		"Test-Tag"
 	);
