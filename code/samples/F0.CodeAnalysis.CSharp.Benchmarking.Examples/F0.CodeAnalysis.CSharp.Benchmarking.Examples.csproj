@@ -20,4 +20,9 @@
     <ProjectReference Include="..\..\src\F0.CodeAnalysis.CSharp.SourceGenerator.Benchmarking\F0.CodeAnalysis.CSharp.SourceGenerator.Benchmarking.csproj" />
   </ItemGroup>
 
+  <ItemGroup Label="Microsoft.CodeAnalysis.Analyzers">
+    <AdditionalFiles Include="ReleaseTracking\AnalyzerReleases.Shipped.md" />
+    <AdditionalFiles Include="ReleaseTracking\AnalyzerReleases.Unshipped.md" />
+  </ItemGroup>
+
 </Project>
