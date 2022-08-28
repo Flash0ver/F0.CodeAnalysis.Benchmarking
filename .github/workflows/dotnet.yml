@@ -11,10 +11,11 @@ jobs:
     name: on ${{ matrix.os }} in ${{ matrix.configuration }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         configuration: [Debug, Release]
         os: [ubuntu-22.04, macos-12, windows-2022]
-    
+
     env:
       Solution_File: ./code/F0.CodeAnalysis.Benchmarking.sln
 
