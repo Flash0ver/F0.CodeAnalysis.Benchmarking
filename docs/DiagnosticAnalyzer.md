@@ -16,4 +16,4 @@ Benchmarking Type: [F0.CodeAnalysis.CSharp.Benchmarking.CSharpDiagnosticAnalyzer
 `F0.CodeAnalysis.CSharp.Analyzer.Benchmarking`
 
 ## History
-- [vNext](../CHANGELOG.md#vnext)
+- [v0.3.0](../CHANGELOG.md#v030-2022-09-11)

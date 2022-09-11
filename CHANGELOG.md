@@ -2,6 +2,8 @@
 CHANGELOG
 
 ## vNext
+
+## v0.3.0 (2022-09-11)
 - Added _C#_ benchmarking types for `DiagnosticAnalyzer`.
 - Fixed inspection order of `Diagnostic.Properties`.
 

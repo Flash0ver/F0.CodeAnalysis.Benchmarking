@@ -16,5 +16,5 @@ Benchmarking Type: [F0.CodeAnalysis.CSharp.Benchmarking.CSharpSourceGeneratorBen
 `F0.CodeAnalysis.CSharp.SourceGenerator.Benchmarking`
 
 ## History
-- [vNext](../CHANGELOG.md#vnext)
+- [v0.3.0](../CHANGELOG.md#v030-2022-09-11)
 - [v0.2.0](../CHANGELOG.md#v020-2022-07-31)
