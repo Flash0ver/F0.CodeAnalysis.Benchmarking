@@ -3,12 +3,6 @@ name: CD
 on:
   push:
     branches: [ "publish" ]
-  workflow_dispatch:
-    inputs:
-      test:
-        description: 'Test'
-        default: 'test'
-        type: text
 
 env:
   DOTNET_NOLOGO: true
@@ -19,7 +13,7 @@ jobs:
   dotnet_publish:
     name: Pack 'n' Push
     runs-on: ubuntu-latest
-    
+
     env:
       Solution_File: ./code/F0.CodeAnalysis.Benchmarking.sln
       Packages_Directory: ./packages/
@@ -30,7 +24,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v2.1.0
     - name: Pack into NuGet packages
-      run: dotnet pack ${{ env.Solution_File }} --configuration Release --output ${{ env.Packages_Directory }}
+      run: dotnet pack ${{ env.Solution_File }} --configuration Release --output ${{ env.Packages_Directory }} --nologo
     - name: Push and publish packages
-      run: dotnet nuget push "*.nupkg" --api-key ${{ secrets.GH_PACKAGES }} --skip-duplicate
+      run: dotnet nuget push "*.nupkg" --api-key ${{ secrets.NUGET_ORG }} --skip-duplicate
       working-directory: ${{ env.Packages_Directory }}
