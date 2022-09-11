@@ -18,7 +18,7 @@ internal sealed class TestCSharpDiagnosticAnalyzer : DiagnosticAnalyzer
 		"Test-Category",
 		DiagnosticSeverity.Warning,
 		true,
-		"Test-Description",
+		"Test-Description.",
 		"Test-HelpLinkUri",
 		"Test-Tag"
 	);
@@ -30,7 +30,7 @@ internal sealed class TestCSharpDiagnosticAnalyzer : DiagnosticAnalyzer
 		"Additional-Category",
 		DiagnosticSeverity.Warning,
 		true,
-		"Additional-Description",
+		"Additional-Description.",
 		"Additional-HelpLinkUri",
 		"Additional-Tag"
 	);

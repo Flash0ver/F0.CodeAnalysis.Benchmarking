@@ -20,7 +20,7 @@ internal sealed class TestCSharpSourceGenerator : ISourceGenerator
 		"Test-Category",
 		DiagnosticSeverity.Warning,
 		true,
-		"Test-Description",
+		"Test-Description.",
 		"Test-HelpLinkUri",
 		"Test-Tag"
 	);

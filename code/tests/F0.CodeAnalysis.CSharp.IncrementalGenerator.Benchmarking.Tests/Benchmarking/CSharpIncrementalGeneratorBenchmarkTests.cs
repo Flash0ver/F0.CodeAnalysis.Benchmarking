@@ -149,7 +149,7 @@ Last MetadataReference: System.Xml.XPath.XDocument (netstandard20)
 					WarningLevel = 0,
 					IsSuppressed = false,
 					Title = "Test-Title",
-					Description = "Test-Description",
+					Description = "Test-Description.",
 					HelpLink = "Test-HelpLinkUri",
 					AdditionalLocations = { Location.Create(String.Empty, TextSpan.FromBounds(13, 21), new LinePositionSpan()) },
 					CustomTags = { "Test-Tag" },

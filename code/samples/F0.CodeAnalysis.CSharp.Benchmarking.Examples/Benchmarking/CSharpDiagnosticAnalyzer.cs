@@ -12,7 +12,7 @@ internal sealed class CSharpDiagnosticAnalyzer : DiagnosticAnalyzer
 {
 	public const string DiagnosticId = "ID0001";
 
-	private static readonly DiagnosticDescriptor Rule = new(
+	private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
 		DiagnosticId,
 		"Type name contains lowercase letters",
 		"Type name '{0}' contains lowercase letters",
