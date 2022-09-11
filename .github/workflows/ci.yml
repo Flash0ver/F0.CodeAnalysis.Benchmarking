@@ -32,7 +32,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore ${{ env.Solution_File }}
     - name: Build solution
-      run: dotnet build ${{ env.Solution_File }} --configuration ${{ matrix.configuration }} --no-restore
+      run: dotnet build ${{ env.Solution_File }} --configuration ${{ matrix.configuration }} --no-restore --nologo
     - name: Test solution
       if: ${{ matrix.os == 'windows-2022' }}
-      run: dotnet test ${{ env.Solution_File }} --configuration ${{ matrix.configuration }} --no-build --verbosity normal
+      run: dotnet test ${{ env.Solution_File }} --configuration ${{ matrix.configuration }} --no-build --nologo
