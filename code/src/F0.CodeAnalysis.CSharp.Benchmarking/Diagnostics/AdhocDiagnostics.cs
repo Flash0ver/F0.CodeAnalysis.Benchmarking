@@ -19,6 +19,7 @@ internal static class AdhocDiagnostics
 		{
 			Location location = locations[i];
 			diagnostic.WithLocation(location);
+			diagnostic.WithAdditionalLocations(locations);
 
 			i++;
 		}

@@ -94,6 +94,8 @@ internal static class Inspector
 		StringBuilder message = new($"Unexpected {nameof(Diagnostic)} #{index}:");
 		_ = message.AppendLine();
 
+		DebugAssert(expected.Location);
+		DebugAssert(actual.Location);
 		Debug.Assert(actual.Descriptor.CustomTags is ImmutableArray<string>);
 
 		bool @throw = Diff.WriteDiff(message, nameof(Diagnostic.Id), expected.Id, actual.Id)
@@ -106,16 +108,43 @@ internal static class Inspector
 			| Diff.WriteDiff(message, nameof(Diagnostic.Severity), expected.Severity, actual.Severity)
 			| Diff.WriteDiff(message, nameof(Diagnostic.WarningLevel), expected.WarningLevel, actual.WarningLevel)
 			| Diff.WriteDiff(message, nameof(Diagnostic.IsSuppressed), expected.IsSuppressed, actual.IsSuppressed)
-			| Diff.WriteDiff(message, nameof(Diagnostic.Location), expected.Location?.SourceSpan, actual.Location.SourceSpan)
+			| Diff.WriteDiff(message, nameof(Diagnostic.Location), expected.Location?.GetLineSpan(), actual.Location.GetLineSpan())
 			| Diff.WriteDiff(message, nameof(Diagnostic.Descriptor.HelpLinkUri), expected.HelpLink, actual.Descriptor.HelpLinkUri)
 			| Diff.WriteDiff(message, nameof(Diagnostic.Descriptor.IsEnabledByDefault), expected.IsEnabledByDefault, actual.Descriptor.IsEnabledByDefault)
-			| Diff.WriteSequenceDiff(message, nameof(Diagnostic.AdditionalLocations), expected.AdditionalLocations, actual.AdditionalLocations, static expected => expected.SourceSpan, static actual => actual.SourceSpan)
+			| Diff.WriteSequenceDiff(message, nameof(Diagnostic.AdditionalLocations), expected.AdditionalDiagnosticLocations, actual.AdditionalLocations, static expected => expected.GetLineSpan(), static actual => actual.GetLineSpan())
 			| Diff.WriteSequenceDiff(message, nameof(Diagnostic.Descriptor.CustomTags), expected.CustomTags, actual.Descriptor.CustomTags.ToImmutableArray())
 			| Diff.WriteOrderedSequenceDiff(message, nameof(Diagnostic.Properties), expected.Properties, actual.Properties, static expected => (expected.Key, expected.Value), static actual => (actual.Key, actual.Value));
 
 		if (@throw)
 		{
 			BenchmarkInspectionException.Throw(message.ToString());
+		}
+
+		[Conditional("DEBUG")]
+		static void DebugAssert(Location? location)
+		{
+			if (location is null)
+			{
+				return;
+			}
+			else if (location.Kind == LocationKind.SourceFile)
+			{
+				Debug.Assert(location.IsInSource, "location.IsInSource");
+				Debug.Assert(!location.IsInMetadata, "!location.IsInMetadata");
+				Debug.Assert(!location.GetLineSpan().HasMappedPath, "!location.GetLineSpan().HasMappedPath");
+				Debug.Assert(location.GetLineSpan().IsValid, "location.GetLineSpan().IsValid");
+			}
+			else if (location.Kind == LocationKind.ExternalFile)
+			{
+				Debug.Assert(!location.IsInSource, "!location.IsInSource");
+				Debug.Assert(!location.IsInMetadata, "!location.IsInMetadata");
+				Debug.Assert(!location.GetLineSpan().HasMappedPath, "!location.GetLineSpan().HasMappedPath");
+				Debug.Assert(location.GetLineSpan().IsValid, "location.GetLineSpan().IsValid");
+			}
+			else
+			{
+				Debug.Fail($"Unexpected {nameof(Location)} {nameof(Location.Kind)}: {location.Kind}");
+			}
 		}
 	}
 }
