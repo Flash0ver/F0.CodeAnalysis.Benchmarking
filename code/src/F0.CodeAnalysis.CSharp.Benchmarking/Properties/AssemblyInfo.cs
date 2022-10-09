@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("F0.CodeAnalysis.CSharp.Analyzer.Benchmarking")]
+[assembly: InternalsVisibleTo("F0.CodeAnalysis.CSharp.CodeFix.Benchmarking")]
 [assembly: InternalsVisibleTo("F0.CodeAnalysis.CSharp.IncrementalGenerator.Benchmarking")]
 [assembly: InternalsVisibleTo("F0.CodeAnalysis.CSharp.SourceGenerator.Benchmarking")]
 

@@ -11,12 +11,13 @@ namespace F0.CodeAnalysis.CSharp.Examples.Benchmarking;
 internal sealed class CSharpDiagnosticAnalyzer : DiagnosticAnalyzer
 {
 	public const string DiagnosticId = "ID0001";
+	public const string DiagnosticCategory = "Naming";
 
 	private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
 		DiagnosticId,
 		"Type name contains lowercase letters",
 		"Type name '{0}' contains lowercase letters",
-		"Naming",
+		DiagnosticCategory,
 		DiagnosticSeverity.Warning,
 		true,
 		"Type names should be all uppercase."

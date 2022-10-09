@@ -2,6 +2,7 @@
 CHANGELOG
 
 ## vNext
+- Added _C#_ benchmarking types for `CodeFixProvider`.
 
 ## v0.3.0 (2022-09-11)
 - Added _C#_ benchmarking types for `DiagnosticAnalyzer`.
