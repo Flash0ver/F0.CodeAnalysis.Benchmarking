@@ -1,5 +1,7 @@
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
 
 namespace F0.CodeAnalysis.CSharp.Diagnostics;
 
@@ -26,10 +28,27 @@ public sealed class AdhocDiagnostic
 	public string? HelpLink { get; init; }
 	internal Location? Location { get; private set; }
 	public int? MarkupLocation { get; init; }
-	public ICollection<Location> AdditionalLocations { get; init; } = new Collection<Location>();
+	public ICollection<AdhocLocation> AdditionalLocations { get; init; } = new Collection<AdhocLocation>();
+	internal ImmutableArray<Location> AdditionalDiagnosticLocations { get; private set; }
 	public ICollection<string> CustomTags { get; init; } = new Collection<string>();
 	public IDictionary<string, string?> Properties { get; init; } = new Dictionary<string, string?>();
 
 	internal void WithLocation(Location location)
 		=> Location = location;
+
+	internal void WithAdditionalLocations(ImmutableArray<Location> locations)
+	{
+		AdditionalDiagnosticLocations = AdditionalLocations.Select(additionalLocation =>
+		{
+			if (additionalLocation.MarkupLocation.HasValue)
+			{
+				return locations[additionalLocation.MarkupLocation.Value];
+			}
+			else
+			{
+				FileLinePositionSpan span = additionalLocation.GetSpan();
+				return Location.Create(span.Path, new TextSpan(), span.Span);
+			}
+		}).ToImmutableArray();
+	}
 }

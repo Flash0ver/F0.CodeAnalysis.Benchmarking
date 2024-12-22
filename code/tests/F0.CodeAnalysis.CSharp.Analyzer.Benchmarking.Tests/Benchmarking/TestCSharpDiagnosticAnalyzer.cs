@@ -118,7 +118,9 @@ internal sealed class TestCSharpDiagnosticAnalyzer : DiagnosticAnalyzer
 
 	private static IEnumerable<(Location Location, string Text)> GetLines(string filePath, SourceText source)
 	{
-		foreach (TextLine textLine in source.Lines)
+		TextLineCollection textLines = source.Lines;
+
+		foreach (TextLine textLine in textLines)
 		{
 			string text = textLine.ToString();
 			if (String.IsNullOrWhiteSpace(text))
@@ -126,11 +128,10 @@ internal sealed class TestCSharpDiagnosticAnalyzer : DiagnosticAnalyzer
 				continue;
 			}
 
-			LinePosition start = new(textLine.LineNumber, textLine.Start);
-			LinePosition end = new(textLine.LineNumber, textLine.End);
-			LinePositionSpan lineSpan = new(start, end);
+			LinePositionSpan lineSpan = textLines.GetLinePositionSpan(textLine.Span);
+			var location = Location.Create(filePath, textLine.Span, lineSpan);
 
-			yield return (Location.Create(filePath, textLine.Span, lineSpan), text);
+			yield return (location, text);
 		}
 	}
 }

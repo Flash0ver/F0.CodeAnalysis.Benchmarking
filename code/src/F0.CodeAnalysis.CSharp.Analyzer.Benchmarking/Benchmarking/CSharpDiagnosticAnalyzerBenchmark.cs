@@ -123,21 +123,22 @@ public sealed class CSharpDiagnosticAnalyzerBenchmark<TDiagnosticAnalyzer>
 		List<Location> outLocations = new();
 
 		IEnumerable<string> sources = context.Source.ToEnumerable().Concat(context.AdditionalSources);
-		IEnumerable<string> parsed = sources.Select((source, index) =>
+		IEnumerable<(string Text, string Path)> parsed = sources.Select((source, index) =>
 		{
-			string sanitized = MarkupParser.Parse(CreateFilePath(index), source, out ImmutableArray<Location> locations);
+			string path = CreateFilePath(index);
+			string sanitized = MarkupParser.Parse(path, source, out ImmutableArray<Location> locations);
 			outLocations.AddRange(locations);
-			return sanitized;
+			return (sanitized, path);
 		});
-		IEnumerable<(string Path, string Source)> additionalTexts = context.AdditionalTexts.Select((source, index) =>
+		IEnumerable<(string Path, string Source)> additionalTexts = context.AdditionalTexts.Select(source =>
 		{
-			string sanitized = MarkupParser.Parse(CreateFilePath(index), source.Text, out ImmutableArray<Location> locations);
+			string sanitized = MarkupParser.Parse(source.Path, source.Text, out ImmutableArray<Location> locations);
 			outLocations.AddRange(locations);
 			return (source.Path, sanitized);
 		});
 
 		const string assemblyName = "CompilerGeneratedCompilation";
-		IEnumerable<SyntaxTree> syntaxTrees = parsed.Select(source => CSharpSyntaxTree.ParseText(source, context.ParseOptions));
+		IEnumerable<SyntaxTree> syntaxTrees = parsed.Select(source => CSharpSyntaxTree.ParseText(source.Text, context.ParseOptions, source.Path, null, null, null, CancellationToken.None));
 		IEnumerable<MetadataReference> references = context.MetadataReferences ?? new[] { MetadataReference.CreateFromFile(typeof(Binder).GetTypeInfo().Assembly.Location) };
 		CSharpCompilationOptions options = context.CompilationOptions ?? new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 

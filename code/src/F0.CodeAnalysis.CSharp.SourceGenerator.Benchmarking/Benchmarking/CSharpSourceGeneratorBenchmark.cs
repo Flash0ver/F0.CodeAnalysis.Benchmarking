@@ -88,15 +88,16 @@ public sealed class CSharpSourceGeneratorBenchmark<TSourceGenerator>
 		List<Location> outLocations = new();
 
 		IEnumerable<string> sources = context.Source.ToEnumerable().Concat(context.AdditionalSources);
-		IEnumerable<string> parsed = sources.Select((source, index) =>
+		IEnumerable<(string Text, string Path)> parsed = sources.Select((source, index) =>
 		{
-			string sanitized = MarkupParser.Parse(CreateFilePath(index), source, out ImmutableArray<Location> locations);
+			string path = CreateFilePath(index);
+			string sanitized = MarkupParser.Parse(path, source, out ImmutableArray<Location> locations);
 			outLocations.AddRange(locations);
-			return sanitized;
+			return (sanitized, path);
 		});
 
 		const string assemblyName = "CompilerGeneratedCompilation";
-		IEnumerable<SyntaxTree> syntaxTrees = parsed.Select(source => CSharpSyntaxTree.ParseText(source, context.ParseOptions));
+		IEnumerable<SyntaxTree> syntaxTrees = parsed.Select(source => CSharpSyntaxTree.ParseText(source.Text, context.ParseOptions, source.Path, null, CancellationToken.None));
 		IEnumerable<MetadataReference> references = context.MetadataReferences ?? new[] { MetadataReference.CreateFromFile(typeof(Binder).GetTypeInfo().Assembly.Location) };
 		CSharpCompilationOptions options = context.CompilationOptions ?? new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 

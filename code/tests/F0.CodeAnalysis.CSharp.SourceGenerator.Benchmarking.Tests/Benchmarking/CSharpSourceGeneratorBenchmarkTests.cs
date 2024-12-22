@@ -147,7 +147,7 @@ typeof(System.Type): netstandard
 					Title = "Test-Title",
 					Description = "Test-Description.",
 					HelpLink = "Test-HelpLinkUri",
-					AdditionalLocations = { Location.Create(String.Empty, TextSpan.FromBounds(13, 21), new LinePositionSpan()) },
+					AdditionalLocations = { new AdhocLocation(0) },
 					CustomTags = { "Test-Tag" },
 					Properties = { { "Zero", "One" }, { "Two", "Three" }, { "Four", "Five" }, { "Six", "Seven" }, { "Eight", "Nine" } },
 				},
@@ -155,7 +155,7 @@ typeof(System.Type): netstandard
 				{
 					Id = "ID0001",
 					Message = "Test-Message: MyClass1",
-					AdditionalLocations = { Location.Create(String.Empty, TextSpan.FromBounds(13, 21), new LinePositionSpan()) },
+					AdditionalLocations = { new AdhocLocation(1) },
 				},
 			},
 		});

@@ -3,7 +3,6 @@ using F0.CodeAnalysis.CSharp.Benchmarking;
 using F0.CodeAnalysis.CSharp.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Text;
 
 namespace F0.CodeAnalysis.CSharp.Tests.Benchmarking;
 
@@ -84,7 +83,7 @@ namespace MyNamespace
 
 		await benchmark.InspectAsync(new CSharpDiagnosticAnalyzerBenchmarkInspectionContext()
 		{
-			Diagnostics = { CreateDiagnostic(0, "MyClass", TextSpan.FromBounds(59, 66), LanguageVersion.CSharp10, false, metadataReference, false) }
+			Diagnostics = { CreateDiagnostic(0, "MyClass", new AdhocLocation(0), LanguageVersion.CSharp10, false, metadataReference, false) },
 		});
 	}
 
@@ -122,7 +121,7 @@ namespace MyNamespace
 			AdditionalSources =
 			{
 				"struct {|#3:MyStruct3|} { } struct {|#4:MyStruct4|} { }",
-				"struct {|#5:MyStruct5|} { }"
+				"struct {|#5:MyStruct5|} { }",
 			},
 			AdditionalTexts =
 			{
@@ -142,16 +141,16 @@ namespace MyNamespace
 		{
 			Diagnostics =
 			{
-				CreateDiagnostic(0, "MyClass0", TextSpan.FromBounds(59, 67), langVersion, allowUnsafe, metadataReference, true),
-				CreateDiagnostic(1, "MyClass1", TextSpan.FromBounds(93, 101), langVersion, allowUnsafe, metadataReference, true),
-				CreateDiagnostic(2, "MyClass2", TextSpan.FromBounds(127, 135), langVersion, allowUnsafe, metadataReference, true),
-				CreateDiagnostic(3, "MyStruct3", TextSpan.FromBounds(7, 16), langVersion, allowUnsafe, metadataReference, true),
-				CreateDiagnostic(4, "MyStruct4", TextSpan.FromBounds(28, 37), langVersion, allowUnsafe, metadataReference, true),
-				CreateDiagnostic(5, "MyStruct5", TextSpan.FromBounds(7, 16), langVersion, allowUnsafe, metadataReference, true),
-				CreateAdditionalDiagnostic(6, "Additional Text 6", TextSpan.FromBounds(0, 17), langVersion, allowUnsafe, metadataReference, true),
-				CreateAdditionalDiagnostic(7, "Additional Text 7", TextSpan.FromBounds(19, 36), langVersion, allowUnsafe, metadataReference, true),
-				CreateAdditionalDiagnostic(8, "Additional Text 8", TextSpan.FromBounds(38, 55), langVersion, allowUnsafe, metadataReference, true),
-				CreateAdditionalDiagnostic(9, "Additional Text 9", TextSpan.FromBounds(0, 17), langVersion, allowUnsafe, metadataReference, true),
+				CreateDiagnostic(0, "MyClass0", new AdhocLocation(0), langVersion, allowUnsafe, metadataReference, true),
+				CreateDiagnostic(1, "MyClass1", new AdhocLocation(1), langVersion, allowUnsafe, metadataReference, true),
+				CreateDiagnostic(2, "MyClass2", new AdhocLocation(2), langVersion, allowUnsafe, metadataReference, true),
+				CreateDiagnostic(3, "MyStruct3", new AdhocLocation(1, 1, 08, 1, 17), langVersion, allowUnsafe, metadataReference, true),
+				CreateDiagnostic(4, "MyStruct4", new AdhocLocation(1, 1, 29, 1, 38), langVersion, allowUnsafe, metadataReference, true),
+				CreateDiagnostic(5, "MyStruct5", new AdhocLocation(2, 1, 08, 1, 17), langVersion, allowUnsafe, metadataReference, true),
+				CreateAdditionalDiagnostic(6, "Additional Text 6", new AdhocLocation("Path1.txt", 1, 1, 1, 18), langVersion, allowUnsafe, metadataReference, true),
+				CreateAdditionalDiagnostic(7, "Additional Text 7", new AdhocLocation("Path1.txt", 2, 1, 2, 18), langVersion, allowUnsafe, metadataReference, true),
+				CreateAdditionalDiagnostic(8, "Additional Text 8", new AdhocLocation("Path1.txt", 3, 1, 3, 18), langVersion, allowUnsafe, metadataReference, true),
+				CreateAdditionalDiagnostic(9, "Additional Text 9", new AdhocLocation("Path2.txt", 1, 1, 1, 18), langVersion, allowUnsafe, metadataReference, true),
 			},
 		});
 	}
@@ -178,7 +177,7 @@ namespace MyNamespace
 		benchmark.Analyzer.Executions.Should().Be(2 * numberOfTypes);
 	}
 
-	private static AdhocDiagnostic CreateDiagnostic(int markupLocation, string messageArgument, TextSpan additionalLocation, LanguageVersion langVersion, bool allowUnsafe, string metadataReference, bool hasOptions)
+	private static AdhocDiagnostic CreateDiagnostic(int markupLocation, string messageArgument, AdhocLocation additionalLocation, LanguageVersion langVersion, bool allowUnsafe, string metadataReference, bool hasOptions)
 	{
 		AdhocDiagnostic diagnostic = new(markupLocation)
 		{
@@ -194,7 +193,7 @@ namespace MyNamespace
 			Title = "Test-Title",
 			Description = "Test-Description.",
 			HelpLink = "Test-HelpLinkUri",
-			AdditionalLocations = { Location.Create(String.Empty, additionalLocation, new LinePositionSpan()) },
+			AdditionalLocations = { additionalLocation },
 			CustomTags = { "Test-Tag" },
 		};
 
@@ -203,7 +202,7 @@ namespace MyNamespace
 		return diagnostic;
 	}
 
-	private static AdhocDiagnostic CreateAdditionalDiagnostic(int markupLocation, string messageArgument, TextSpan additionalLocation, LanguageVersion langVersion, bool allowUnsafe, string metadataReference, bool hasOptions)
+	private static AdhocDiagnostic CreateAdditionalDiagnostic(int markupLocation, string messageArgument, AdhocLocation additionalLocation, LanguageVersion langVersion, bool allowUnsafe, string metadataReference, bool hasOptions)
 	{
 		AdhocDiagnostic diagnostic = new(markupLocation)
 		{
@@ -219,7 +218,7 @@ namespace MyNamespace
 			Title = "Additional-Title",
 			Description = "Additional-Description.",
 			HelpLink = "Additional-HelpLinkUri",
-			AdditionalLocations = { Location.Create(String.Empty, additionalLocation, new LinePositionSpan()) },
+			AdditionalLocations = { additionalLocation },
 			CustomTags = { "Additional-Tag" },
 		};
 

@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 using F0.CodeAnalysis.CSharp.Markup;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
@@ -7,6 +8,8 @@ namespace F0.CodeAnalysis.CSharp.Tests.Markup;
 
 public class MarkupParserTests
 {
+	private static readonly bool hasCarriageReturnInLineBreak = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
 	[Theory]
 	[InlineData("{|#5:...|}", "...")]
 	[InlineData("{|#5:...|#5}", "...")]
@@ -160,7 +163,14 @@ public class NUnitTests
 				first.IsInMetadata.Should().BeFalse();
 				first.SourceTree.Should().BeNull();
 				first.MetadataModule.Should().BeNull();
-				first.SourceSpan.Should().Be(TextSpan.FromBounds(108, 123));
+				if (hasCarriageReturnInLineBreak)
+				{
+					first.SourceSpan.Should().Be(TextSpan.FromBounds(108, 123));
+				}
+				else
+				{
+					first.SourceSpan.Should().Be(TextSpan.FromBounds(100, 115));
+				}
 				first.GetLineSpan().Should().Be(new FileLinePositionSpan("FilePath", new LinePosition(8, 13), new LinePosition(8, 28)));
 				first.GetMappedLineSpan().Should().Be(new FileLinePositionSpan("FilePath", new LinePosition(8, 13), new LinePosition(8, 28)));
 			},
@@ -171,7 +181,14 @@ public class NUnitTests
 				second.IsInMetadata.Should().BeFalse();
 				second.SourceTree.Should().BeNull();
 				second.MetadataModule.Should().BeNull();
-				second.SourceSpan.Should().Be(TextSpan.FromBounds(170, 209));
+				if (hasCarriageReturnInLineBreak)
+				{
+					second.SourceSpan.Should().Be(TextSpan.FromBounds(170, 209));
+				}
+				else
+				{
+					second.SourceSpan.Should().Be(TextSpan.FromBounds(157, 196));
+				}
 				second.GetLineSpan().Should().Be(new FileLinePositionSpan("FilePath", new LinePosition(13, 13), new LinePosition(13, 52)));
 				second.GetMappedLineSpan().Should().Be(new FileLinePositionSpan("FilePath", new LinePosition(13, 13), new LinePosition(13, 52)));
 			}
